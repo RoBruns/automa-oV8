@@ -1,10 +1,13 @@
-import atexit
-import os
-import time
-import pandas as pd
+# Flake8: noqa
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.select import Select
+import pandas as pd
+import time
+import os
+from pathlib import Path
+import atexit
 from secure_module import load_private_key, source_code, verify_signature, sign_code, validar_chave_licenca, nome_arquivo, chave_criptografia
 
 private_key = load_private_key()
@@ -85,11 +88,11 @@ def read_login_info():
 
 if validar_chave_licenca(nome_arquivo, chave_criptografia):
     try:
-        # Configurar as opções do Firefox
-        firefox_options = webdriver.FirefoxOptions()
+        # Configurar as opções do Chrome
+        chrome_options = Options()
 
-        # Inicialize o driver do Firefox com as opções configuradas
-        driver = webdriver.Firefox(options=firefox_options)
+        # Inicialize o driver do Chrome com as opções configuradas
+        driver = webdriver.Chrome(options=chrome_options)
 
         # Abra a página de login
         login_url = "https://v8sistema.com/auth/signin?callbackUrl=https%3A%2F%2Fv8sistema.com%2Fproposals%2Fsimulate"
@@ -124,8 +127,12 @@ if validar_chave_licenca(nome_arquivo, chave_criptografia):
         time.sleep(2)
 
         # Localize o campo de entrada de CPF
+        select_bank = Select(driver.find_element(By.NAME, "averbador"))
+        select_bank.select_by_value("qi")
+        
         select = Select(driver.find_element(By.NAME, "tables"))
-        select.select_by_value("7")
+        select.select_by_value("10")
+
 
         base_folder = "base"
         file_name = None
@@ -136,7 +143,8 @@ if validar_chave_licenca(nome_arquivo, chave_criptografia):
                     break
 
         # Verifique se há um arquivo de progresso salvo
-        progress_file = "progress.txt"
+        DIR = Path(__file__).parent.resolve()
+        progress_file = DIR / "progress.txt"
 
         if os.path.exists(progress_file):
             # Se o arquivo de progresso existe, leia a linha onde a automação parou
