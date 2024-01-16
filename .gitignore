@@ -159,6 +159,8 @@ lofin_info.txt
 # PyCharm
 test.xlsx
 private_key.pem
+
+main_0_2_dist.py
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
 #  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear

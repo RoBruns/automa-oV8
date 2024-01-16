@@ -63,7 +63,7 @@ def load_private_key():
             )
         return private_key
     else:
-        print("sem chave de acesso")
+        raise FileNotFoundError("Arquivo 'private_key.pem' não encontrado.")
 
 
 # Função para assinar o código
